@@ -2,5 +2,5 @@ version: 'v1'
 
 services:
   python-app:
-    image: ghcr.io/barabum0/python-template:latest
+    image: ghcr.io/barabum0/mongobackup-s3:latest
     restart: unless-stopped
