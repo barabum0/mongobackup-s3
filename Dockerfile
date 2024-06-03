@@ -4,6 +4,13 @@ ENV PYTHONFAULTHANDLER=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
+# Add MongoDB tools using the specified .deb file
+RUN apt-get update && apt-get install -y wget && \
+    wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-debian12-x86_64-100.9.4.deb && \
+    apt-get install -y ./mongodb-database-tools-debian12-x86_64-100.9.4.deb && \
+    rm mongodb-database-tools-debian12-x86_64-100.9.4.deb
+
+
 RUN pip install poetry
 
 FROM poetry AS environment
