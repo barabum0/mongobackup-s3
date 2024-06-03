@@ -4,12 +4,13 @@ import shutil
 import subprocess
 import tarfile
 from datetime import datetime
+from typing import Any
 
 import boto3
 from botocore.exceptions import EndpointConnectionError, NoCredentialsError
 
 
-def load_env_vars():
+def load_env_vars() -> dict[str, Any]:
     """Загружает переменные окружения из файла .env"""
     return {
         "mongo_url": os.getenv("MONGO__URL"),
