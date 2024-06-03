@@ -3,4 +3,4 @@ version: 'v1'
 services:
   mongobackup-s3:
     image: ghcr.io/barabum0/mongobackup-s3:latest
-    restart: unless-stopped
+    restart: no
