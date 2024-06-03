@@ -9,6 +9,6 @@ services:
       MONGO__URL: ""
       MONGO__DB_NAME: ""
       S3_STORAGE__ENDPOINT_URL: ""
-      S3_STORAGE__ACCESS_KEY: ""
+      S3_STORAGE__ACCESS_KEY_ID: ""
       S3_STORAGE__SECRET_KEY: ""
       S3_STORAGE__BUCKET_NAME: ""
