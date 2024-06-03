@@ -4,3 +4,11 @@ services:
   mongobackup-s3:
     image: ghcr.io/barabum0/mongobackup-s3:latest
     restart: no
+
+    environment:
+      MONGO__URL: ""
+      MONGO__DB_NAME: ""
+      S3_STORAGE__ENDPOINT_URL: ""
+      S3_STORAGE__ACCESS_KEY: ""
+      S3_STORAGE__SECRET_KEY: ""
+      S3_STORAGE__BUCKET_NAME: ""
