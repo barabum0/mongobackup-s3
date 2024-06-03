@@ -1,7 +1,7 @@
 [tool.poetry]
 package-mode = false
-name = "python-template"
-description = "Description"
+name = "mongobackup-s3"
+description = "Python Script to Backup MongoDB Database into S3 Object Storage"
 authors = ["Roman Poltorabatko <r.m.poltorabatko@gmail.com>"]
 license = "MIT"
 readme = "README.md"
