@@ -24,6 +24,9 @@ target-version = ['py312']
 profile = "black"
 src_paths = ["."]
 
+[tool.poetry.scripts]
+app = "main:main"
+
 [tool.mypy]
 python_version = "3.12"
 disallow_untyped_defs = true
