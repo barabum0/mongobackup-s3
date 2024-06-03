@@ -5,7 +5,6 @@ description = "Python Script to Backup MongoDB Database into S3 Object Storage"
 authors = ["Roman Poltorabatko <r.m.poltorabatko@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
