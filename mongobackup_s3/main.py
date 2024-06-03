@@ -69,8 +69,7 @@ def upload_to_s3(
         return False
 
 
-# Пример использования
-if __name__ == "__main__":
+def main() -> None:
     env_vars = load_env_vars()
     mongo_uri = env_vars["mongo_url"]
     db_name = env_vars["mongo_db_name"]
@@ -90,3 +89,8 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Произошла ошибка: {e}")
         raise
+
+
+# Пример использования
+if __name__ == "__main__":
+    main()
