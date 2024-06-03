@@ -25,7 +25,7 @@ profile = "black"
 src_paths = ["."]
 
 [tool.poetry.scripts]
-app = "main:main"
+app = "mongobackup_s3.main:main"
 
 [tool.mypy]
 python_version = "3.12"
