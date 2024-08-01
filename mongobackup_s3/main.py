@@ -77,7 +77,7 @@ def main() -> None:
     access_key = env_vars["s3_access_key"]
     secret_key = env_vars["s3_secret_key"]
     bucket_name = env_vars["s3_bucket_name"]
-    s3_object_name = f'backup/{db_name}_backup_{datetime.now().strftime("%Y_%m_%d_%H_%M_%S")}.tar.gz'
+    s3_object_name = f'backup/{db_name}_backup_{datetime.utcnow().strftime("%Y_%m_%d_%H_%M_%S")}.tar.gz'
 
     try:
         backup_data = backup_mongodb_to_memory(mongo_uri, db_name)
@@ -86,6 +86,25 @@ def main() -> None:
             print("Загрузка завершена успешно")
         else:
             print("Загрузка завершилась с ошибкой")
+
+        if datetime.utcnow().weekday() == 0 and datetime.utcnow().hour < 1:
+            # Еженедельный бэкап по понедельникам
+            weekly_s3_object_name = f'weekly_backup/{db_name}_backup_{datetime.utcnow().strftime("%Y_%m_%d_%H_%M_%S")}.tar.gz'
+            uploaded = upload_to_s3(backup_data, bucket_name, weekly_s3_object_name, endpoint_url, access_key, secret_key)
+            if uploaded:
+                print("Загрузка завершена успешно")
+            else:
+                print("Загрузка завершилась с ошибкой")
+
+        if datetime.utcnow().day == 1 and datetime.utcnow().hour < 1:
+            # Ежемесячный бэкап 1 числа
+            monthly_s3_object_name = f'monthly_backup/{db_name}_backup_{datetime.utcnow().strftime("%Y_%m_%d_%H_%M_%S")}.tar.gz'
+            uploaded = upload_to_s3(backup_data, bucket_name, monthly_s3_object_name, endpoint_url, access_key, secret_key)
+            if uploaded:
+                print("Загрузка завершена успешно")
+            else:
+                print("Загрузка завершилась с ошибкой")
+
     except Exception as e:
         print(f"Произошла ошибка: {e}")
         raise
