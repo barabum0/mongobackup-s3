@@ -3,7 +3,9 @@ import os
 import shutil
 import subprocess
 import tarfile
+import time
 from datetime import datetime
+from time import sleep
 from typing import Any
 
 import boto3
@@ -108,6 +110,13 @@ def main() -> None:
     except Exception as e:
         print(f"Произошла ошибка: {e}")
         raise
+
+
+def run_every_2_hours() -> None:
+    while True:
+        print("Произвожу бэкап...")
+        main()
+        sleep(2 * 60 * 60)  # 2h
 
 
 # Пример использования
