@@ -5,6 +5,7 @@ import subprocess
 import tarfile
 import time
 from datetime import datetime
+from tabnanny import check
 from time import sleep
 from typing import Any
 
@@ -27,10 +28,10 @@ def load_env_vars() -> dict[str, Any]:
 def backup_mongodb_to_memory(uri: str, db_name: str) -> bytes:
     """Делает бэкап базы данных MongoDB и сохраняет его в памяти"""
     timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-    backup_dir = f"/tmp/{db_name}_backup_{timestamp}"
+    backup_dir = f"/Users/sushka/developement/pycharm/suvvy/mongobackup-s3/tmp/{db_name}_backup_{timestamp}"
 
     try:
-        args = ["mongodump", "--uri", uri, "--db", db_name, "--out", backup_dir]
+        args = ["mongodump", uri, "--db", db_name, "--out", backup_dir]
         print(args)
         subprocess.run(args, check=True)
         print(f"Бэкап базы данных {db_name} завершен. Путь: {backup_dir}")
