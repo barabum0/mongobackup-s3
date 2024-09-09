@@ -28,7 +28,7 @@ def load_env_vars() -> dict[str, Any]:
 def backup_mongodb_to_memory(uri: str, db_name: str) -> bytes:
     """Делает бэкап базы данных MongoDB и сохраняет его в памяти"""
     timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-    backup_dir = f"/Users/sushka/developement/pycharm/suvvy/mongobackup-s3/tmp/{db_name}_backup_{timestamp}"
+    backup_dir = f"/tmp/{db_name}_backup_{timestamp}"
 
     try:
         args = ["mongodump", uri, "--db", db_name, "--out", backup_dir]
