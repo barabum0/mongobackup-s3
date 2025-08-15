@@ -69,6 +69,7 @@ def upload_to_s3(
     )
 
     try:
+        print(f"Загрузка файла в S3...")
         s3_client.put_object(Bucket=bucket, Key=object_name, Body=file_data)
         print(f"Файл успешно загружен в {bucket}/{object_name}")
         return True
