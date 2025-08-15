@@ -28,7 +28,7 @@ def load_env_vars() -> dict[str, Any]:
 def backup_mongodb_to_memory(uri: str, db_name: str) -> bytes:
     """Делает бэкап базы данных MongoDB и сохраняет его в памяти"""
     timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-    backup_dir = f"/tmp/{db_name}_backup_{timestamp}"
+    backup_dir = f"/Users/sushka/developement/pycharm/suvvy/mongobackup-s3/tmp/{db_name}_backup_{timestamp}"
 
     try:
         args = ["mongodump", uri, "--db", db_name, "--out", backup_dir]
@@ -53,11 +53,19 @@ def backup_mongodb_to_memory(uri: str, db_name: str) -> bytes:
 
 
 def upload_to_s3(
-    file_data: bytes, bucket: str, object_name: str, endpoint_url: str, access_key: str, secret_key: str
+    file_data: bytes,
+    bucket: str,
+    object_name: str,
+    endpoint_url: str,
+    access_key: str,
+    secret_key: str,
 ) -> bool:
     """Загружает архив в указанный S3 бакет"""
     s3_client = boto3.client(
-        "s3", endpoint_url=endpoint_url, aws_access_key_id=access_key, aws_secret_access_key=secret_key
+        "s3",
+        endpoint_url=endpoint_url,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key,
     )
 
     try:
@@ -80,11 +88,18 @@ def main() -> None:
     access_key = env_vars["s3_access_key"]
     secret_key = env_vars["s3_secret_key"]
     bucket_name = env_vars["s3_bucket_name"]
-    s3_object_name = f'backup/{db_name}_backup_{datetime.utcnow().strftime("%Y_%m_%d_%H_%M_%S")}.tar.gz'
+    s3_object_name = f"backup/{db_name}_backup_{datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S')}.tar.gz"
 
     try:
         backup_data = backup_mongodb_to_memory(mongo_uri, db_name)
-        uploaded = upload_to_s3(backup_data, bucket_name, s3_object_name, endpoint_url, access_key, secret_key)
+        uploaded = upload_to_s3(
+            backup_data,
+            bucket_name,
+            s3_object_name,
+            endpoint_url,
+            access_key,
+            secret_key,
+        )
         if uploaded:
             print("Загрузка завершена успешно")
         else:
@@ -92,8 +107,15 @@ def main() -> None:
 
         if datetime.utcnow().weekday() == 0 and datetime.utcnow().hour < 1:
             # Еженедельный бэкап по понедельникам
-            weekly_s3_object_name = f'weekly_backup/{db_name}_backup_{datetime.utcnow().strftime("%Y_%m_%d_%H_%M_%S")}.tar.gz'
-            uploaded = upload_to_s3(backup_data, bucket_name, weekly_s3_object_name, endpoint_url, access_key, secret_key)
+            weekly_s3_object_name = f"weekly_backup/{db_name}_backup_{datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S')}.tar.gz"
+            uploaded = upload_to_s3(
+                backup_data,
+                bucket_name,
+                weekly_s3_object_name,
+                endpoint_url,
+                access_key,
+                secret_key,
+            )
             if uploaded:
                 print("Загрузка завершена успешно")
             else:
@@ -101,8 +123,15 @@ def main() -> None:
 
         if datetime.utcnow().day == 1 and datetime.utcnow().hour < 1:
             # Ежемесячный бэкап 1 числа
-            monthly_s3_object_name = f'monthly_backup/{db_name}_backup_{datetime.utcnow().strftime("%Y_%m_%d_%H_%M_%S")}.tar.gz'
-            uploaded = upload_to_s3(backup_data, bucket_name, monthly_s3_object_name, endpoint_url, access_key, secret_key)
+            monthly_s3_object_name = f"monthly_backup/{db_name}_backup_{datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S')}.tar.gz"
+            uploaded = upload_to_s3(
+                backup_data,
+                bucket_name,
+                monthly_s3_object_name,
+                endpoint_url,
+                access_key,
+                secret_key,
+            )
             if uploaded:
                 print("Загрузка завершена успешно")
             else:
