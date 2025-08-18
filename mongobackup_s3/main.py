@@ -93,6 +93,7 @@ def main() -> None:
 
     try:
         backup_data = backup_mongodb_to_memory(mongo_uri, db_name)
+        print(f"Загрузка файла в S3. {len(backup_data)} байтов")
         uploaded = upload_to_s3(
             backup_data,
             bucket_name,
